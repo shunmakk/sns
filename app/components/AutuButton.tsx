@@ -1,22 +1,44 @@
 'use client'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import React from 'react'
+import {Session, createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { useRouter } from 'next/navigation'
+import React, { useEffect, useState } from 'react'
 
 const AutuButton = () => {
 
+    const router = useRouter();
     const supbase = createClientComponentClient();
+    const [session,setSession] = useState<Session | null>();
+
+
+    useEffect(() => {
+        const getSession = async () => {
+        const {data} = await supbase.auth.getSession();
+        setSession(data.session);
+        };
+        getSession();
+    })
 
     const handleSignIn = async () => {
         await supbase.auth.signInWithOAuth({
         provider: "github",
         options: {
-            redirectTo: "http//localhost:3000/auth/callback"
+            redirectTo: "http://localhost:3000/auth/callback"
         }
-        })
-    }
+        });
+    };
+
+    const handleSignOut = async () => {
+        await supbase.auth.signOut();
+        router.refresh();
+    };
 
   return (
-    <button onClick={handleSignIn}>サインイン</button>
+    <>
+    {session ? <button onClick={handleSignOut}>ログアウト</button>
+            :  <button onClick={handleSignIn}>サインイン</button>
+    }
+    </>
+  
   )
 }
 
