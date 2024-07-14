@@ -8,7 +8,7 @@ export async function GET(request: NextRequest){
  const code =  requestUrl.searchParams.get("code");
 
  if(code){
-    const supabase = createRouteHandlerClient({cookies});
+    const supabase = createRouteHandlerClient<Database>({cookies});
     //supbaseにgithubでoauth認証したことを伝える
     await supabase.auth.exchangeCodeForSession(code);
  }

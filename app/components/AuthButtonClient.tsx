@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react'
 const AutuButtonClient = ({session}: {session: Session | null}) => {
 
     const router = useRouter();
-    const supbase = createClientComponentClient();
+    const supbase = createClientComponentClient<Database>();
     // const [session,setSession] = useState<Session | null>();
 
 
