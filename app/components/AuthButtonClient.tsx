@@ -3,20 +3,20 @@ import {Session, createClientComponentClient } from '@supabase/auth-helpers-next
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 
-const AutuButton = () => {
+const AutuButtonClient = ({session}: {session: Session | null}) => {
 
     const router = useRouter();
     const supbase = createClientComponentClient();
-    const [session,setSession] = useState<Session | null>();
+    // const [session,setSession] = useState<Session | null>();
 
 
-    useEffect(() => {
-        const getSession = async () => {
-        const {data} = await supbase.auth.getSession();
-        setSession(data.session);
-        };
-        getSession();
-    })
+    // useEffect(() => {
+    //     const getSession = async () => {
+    //     const {data} = await supbase.auth.getSession();
+    //     setSession(data.session);
+    //     };
+    //     getSession();
+    // })
 
     const handleSignIn = async () => {
         await supbase.auth.signInWithOAuth({
@@ -42,4 +42,4 @@ const AutuButton = () => {
   )
 }
 
-export default AutuButton
+export default AutuButtonClient

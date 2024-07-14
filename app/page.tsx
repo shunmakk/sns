@@ -2,7 +2,7 @@
 import Image from "next/image";
 import {cookies} from 'next/headers';
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-import AutuButton from "./components/AutuButton";
+import AuthButtonServer from "./components/AuthButtonServer";
 
 export default async function Home() {
 
@@ -18,7 +18,7 @@ export default async function Home() {
 
   return (
     <>
-    <AutuButton/>
+    <AuthButtonServer/>
     <pre>
       {JSON.stringify(posts,null,2)}
     </pre>
