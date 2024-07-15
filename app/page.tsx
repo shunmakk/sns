@@ -17,7 +17,7 @@ export default async function Home() {
   }
 
 
-  const {data: posts} = await supbase.from('Posts').select();
+  const {data: posts} = await supbase.from('posts').select();
   console.log(posts);
 
   
