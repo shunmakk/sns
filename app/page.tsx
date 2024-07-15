@@ -18,18 +18,14 @@ export default async function Home() {
   }
 
 
-  const {data: posts} = await supbase.from('posts').select();
-  console.log(posts);
-
-  
-
+  const {data: posts} = await supbase.from('posts').select("*, profiles(*)");
 
   return (
     <>
     <AuthButtonServer/>
     <NewPost/>
     <pre>
-      {JSON.stringify(posts,null,2)}
+      {JSON.stringify(posts,null,2,)}
     </pre>
     </>
 
