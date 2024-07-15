@@ -3,6 +3,7 @@ import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import AuthButtonServer from "./components/AuthButtonServer";
 import { redirect } from "next/navigation";
 import { Database } from "./lib/database.types";
+import NewPost from './components/NewPost ';
 
 export default async function Home() {
 
@@ -26,6 +27,7 @@ export default async function Home() {
   return (
     <>
     <AuthButtonServer/>
+    <NewPost/>
     <pre>
       {JSON.stringify(posts,null,2)}
     </pre>
