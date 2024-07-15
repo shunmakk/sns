@@ -24,6 +24,12 @@ export default async function Home() {
     <>
     <AuthButtonServer/>
     <NewPost/>
+    {posts?.map((post) => (
+      <div key={post.id}>
+        <p>{post.profiles?.name} {post.profiles?.username}</p>
+        <p>{post.title}</p>
+      </div>
+    ))}
     <pre>
       {JSON.stringify(posts,null,2,)}
     </pre>
