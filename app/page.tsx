@@ -4,6 +4,7 @@ import AuthButtonServer from "./components/AuthButtonServer";
 import { redirect } from "next/navigation";
 import { Database } from "./lib/database.types";
 import NewPost from './components/NewPost ';
+import Likes from './components/Likes';
 
 export default async function Home() {
 
@@ -18,7 +19,14 @@ export default async function Home() {
   }
 
 
-  const {data: posts} = await supbase.from('posts').select("*, profiles(*)");
+  const {data} = await supbase.from('posts').select("*, profiles(*),likes(*)");
+
+  //無限いいねを防ぐ
+  const posts = data?.map((post) => ({
+    ...post,
+    user_has_liked_post: post.likes.find((like) => like.user_id === session.user.id),
+    likes: post.likes.length,
+  })) ?? [];
 
   return (
     <>
@@ -28,11 +36,9 @@ export default async function Home() {
       <div key={post.id}>
         <p>{post.profiles?.name} {post.profiles?.username}</p>
         <p>{post.title}</p>
+        <Likes post={post}/>
       </div>
     ))}
-    <pre>
-      {JSON.stringify(posts,null,2,)}
-    </pre>
     </>
 
   );

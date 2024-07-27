@@ -38,7 +38,7 @@ const AutuButtonClient = ({session}: {session: Session | null}) => {
             :  <button onClick={handleSignIn}>サインイン</button>
     }
     </>
-  
+
   )
 }
 
