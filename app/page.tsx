@@ -18,13 +18,13 @@ export default async function Home() {
     redirect("/login");
   }
 
-
-  const {data} = await supbase.from('posts').select("*, profiles(*),likes(*)");
+  const {data} = await supbase.from('posts').select("*, author:profiles(*),likes(user_id)");
 
   //無限いいねを防ぐ
   const posts = data?.map((post) => ({
     ...post,
-    user_has_liked_post: post.likes.find((like) => like.user_id === session.user.id),
+    author: Array.isArray(post.author) ? post.author[0] : post.author,
+    user_has_liked_post: !!post.likes.find((like) => like.user_id === session.user.id),
     likes: post.likes.length,
   })) ?? [];
 
@@ -34,7 +34,7 @@ export default async function Home() {
     <NewPost/>
     {posts?.map((post) => (
       <div key={post.id}>
-        <p>{post.profiles?.name} {post.profiles?.username}</p>
+        <p>{post.author?.name} {post.author?.username}</p>
         <p>{post.title}</p>
         <Likes post={post}/>
       </div>
