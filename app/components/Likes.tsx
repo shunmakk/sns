@@ -13,7 +13,7 @@ type PostWithAuthor = Post & {
 
 
 
-export default function Likes({post}: {post: PostWithAuthor}){
+export default function Likes({post,addOptimisticPost}: {post: PostWithAuthor; addOptimisticPost:(newPost: PostWithAuthor) => void }){
 
     const router = useRouter()
 
@@ -23,9 +23,19 @@ export default function Likes({post}: {post: PostWithAuthor}){
 
 
         if(post.user_has_liked_post){
+            addOptimisticPost({
+                ...post, //既存のポスト
+                likes: post.likes + 1,  //lilesの属性を更新する -1
+                user_has_liked_post: !post.user_has_liked_post
+            });
              await supbase.from('likes').delete().match({user_id: user?.id, post_id: post.id});
              router.refresh()
         }else{
+            addOptimisticPost({
+                ...post, //既存のポスト
+                likes: post.likes + 1,  //lilesの属性を更新する  +1
+                user_has_liked_post: !post.user_has_liked_post
+            });
              await supbase.from('likes').insert({user_id: user?.id, post_id: post.id});
              router.refresh()
         }
