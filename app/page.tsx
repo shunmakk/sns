@@ -4,7 +4,7 @@ import AuthButtonServer from "./components/AuthButtonServer";
 import { redirect } from "next/navigation";
 import { Database } from "./lib/database.types";
 import NewPost from './components/NewPost ';
-import Likes from './components/Likes';
+import Post from './components/Post ';
 
 export default async function Home() {
 
@@ -32,13 +32,7 @@ export default async function Home() {
     <>
     <AuthButtonServer/>
     <NewPost/>
-    {posts?.map((post) => (
-      <div key={post.id}>
-        <p>{post.author?.name} {post.author?.username}</p>
-        <p>{post.title}</p>
-        <Likes post={post}/>
-      </div>
-    ))}
+    <Post posts={posts}/>
     </>
 
   );
